@@ -42,9 +42,6 @@
   (evil-vnoremap key command)
   (evil-onoremap key command))
 
-(defun evil-nnoremap (key command)
-  "Bind key in evil normal mode."
-  (define-key evil-normal-state-map key command))
 
 ;;;
 (defun evil-nnoremap-mode (keymap key command)
@@ -63,28 +60,25 @@ See `evil-define-key' for more information."
 (defun evil-inoremap-mode (keymap key command)
   (evil-define-key-multi '(insert) key command))
 
-(defun evil-vnoremap (key command)
-  "Bind key in evil visual mode."
-  (define-key evil-visual-state-map key command))
+(defmacro evil-define-remap (state shortname)
+  "Define a new keybinding function for STATE.
 
-(defun evil-xnoremap (key command)
-  (define-key evil-ex-map key command))
+SHORTNAME should be the desired name in evil-{SHORTNAME}noremap."
+  (let ((name-sym (intern (concat "evil-" shortname "noremap"))))
+    `(defun ,name-sym (key command)
+       ,(format "Bind KEY to COMMAND in evil %s."
+                (if (string-match "^\\(.*\\)-state$" (symbol-name state))
+                    (format "%s state" (match-string 1 (symbol-name state)))
+                  (format "%s mode" shortname)))
+       (define-key ,(intern (format "evil-%s-map" state)) key command))))
 
-(defun evil-onoremap (key command)
-  "Bind key in evil operator mode."
-  (define-key evil-operator-state-map key command))
-
-(defun evil-inoremap (key command)
-  "Bind key in evil insert mode."
-  (define-key evil-insert-state-map key command))
-
-(defun evil-enoremap (key command)
-  "Bind key in evil emacs mode."
-  (define-key evil-emacs-state-map key command))
-
-(defun evil-mnoremap (key command)
-  "Bind key in evil motion mode."
-  (define-key evil-motion-state-map key command))
+(evil-define-remap normal-state "n")
+(evil-define-remap visual-state "v")
+(evil-define-remap ex "x")
+(evil-define-remap operator-state "o")
+(evil-define-remap insert-state "i")
+(evil-define-remap emacs-state "e")
+(evil-define-remap motion-state "m")
 
 (defun evil-nnoremap! (key command)
   (evil-nnoremap key command)
