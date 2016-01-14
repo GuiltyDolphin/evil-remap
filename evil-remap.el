@@ -45,7 +45,7 @@
 
 ;;;
 (defun evil-nnoremap-mode (keymap key command)
-  (evil-define-key 'normal key command))
+  (evil-define-key 'normal keymap key command))
 
 (defun evil-define-key-multi (states keymap key def)
   "For each STATE in STATES, create a STATE binding from KEY to
