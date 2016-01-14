@@ -37,7 +37,7 @@
 (require 'evil)
 
 (defun evil-noremap (key command)
-  "Bind key in evil normal, visual and operator modes."
+  "Bind KEY to COMMAND in evil normal, visual and operator modes."
   (evil-nnoremap key command)
   (evil-vnoremap key command)
   (evil-onoremap key command))
@@ -48,8 +48,7 @@
   (evil-define-key 'normal keymap key command))
 
 (defun evil-define-key-multi (states keymap key def)
-  "For each STATE in STATES, create a STATE binding from KEY to
-DEF for the given KEYMAP.
+  "For each STATE in STATES, create a STATE binding in KEYMAP from KEY to DEF.
 
 STATES must be a list of valid evil-mode states.
 See `evil-define-key' for more information."
