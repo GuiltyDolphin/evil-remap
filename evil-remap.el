@@ -61,7 +61,7 @@ See `evil-define-key' for more information."
 (defun evil-inoremap-mode (keymap key command)
   (evil-define-key-multi '(insert) key command))
 
-(defmacro evil-define-remap (state shortname)
+(defmacro evil-remap--define-remap (state shortname)
   "Define a new keybinding function for STATE.
 
 SHORTNAME should be the desired name in evil-{SHORTNAME}noremap."
@@ -73,13 +73,13 @@ SHORTNAME should be the desired name in evil-{SHORTNAME}noremap."
                   (format "%s mode" shortname)))
        (define-key ,(intern (format "evil-%s-map" state)) key command))))
 
-(evil-define-remap normal-state "n")
-(evil-define-remap visual-state "v")
-(evil-define-remap ex "x")
-(evil-define-remap operator-state "o")
-(evil-define-remap insert-state "i")
-(evil-define-remap emacs-state "e")
-(evil-define-remap motion-state "m")
+(evil-remap--define-remap normal-state "n")
+(evil-remap--define-remap visual-state "v")
+(evil-remap--define-remap ex "x")
+(evil-remap--define-remap operator-state "o")
+(evil-remap--define-remap insert-state "i")
+(evil-remap--define-remap emacs-state "e")
+(evil-remap--define-remap motion-state "m")
 
 (defun evil-nnoremap! (key command)
   (evil-nnoremap key command)
